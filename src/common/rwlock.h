@@ -19,6 +19,7 @@ public:
     }
 
     void RUnlock() {
+        std::unique_lock<std::mutex> mut(mutex_);
         std::atomic_fetch_sub(&rn_, 1);
         if (rn_ == 0 && wn_ > 0) {
             wcond_.notify_one();
@@ -33,6 +34,7 @@ public:
     }
 
     void WUnlock() {
+        std::unique_lock<std::mutex> mut(mutex_);
         std::atomic_fetch_sub(&wn_, 1);
         wf_ = 0;
         if (wn_ == 0) {
@@ -52,15 +54,22 @@ template<typename _RWLock>
 class RWLockGuard {
 public:
     explicit RWLockGuard(_RWLock &rwlock, bool write) :
-        rwlock_(rwlock), write_(write) {
+        rwlock_(rwlock), write_(write), locked_(true) {
         write_ ? rwlock_.WLock() : rwlock_.RLock();
     }
     ~RWLockGuard() {
+        if (locked_) {
+            write_ ? rwlock_.WUnlock() : rwlock_.RUnlock();
+        }
+    }
+    void Unlock() {
+        locked_ = false;
         write_ ? rwlock_.WUnlock() : rwlock_.RUnlock();
     }
 private:
     _RWLock &rwlock_;
     bool write_;
+    bool locked_;
 };
 
 }

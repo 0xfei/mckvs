@@ -1,0 +1,30 @@
+syntax = "proto2";
+
+enum KeyType {
+    VECTOR = 0;
+    STRING = 1;
+}
+
+message KeyChain {
+    required KeyType type = 1;
+    optional string root = 2;
+    repeated string vec = 3;
+    optional uint64 ttl = 4;
+}
+
+enum RequestType {
+    GET = 0;
+    SET = 1;
+    DEL = 2;
+}
+
+message Request {
+    required RequestType type = 1;
+    optional KeyChain root = 2;
+    repeated KeyChain subkey = 3;
+}
+
+message Response {
+    required uint32 code = 1;
+    repeated string value = 2;
+}

@@ -15,9 +15,8 @@ namespace MCKVS
 namespace UTIL
 {
 
-static const std::regex re{"/"};
-
-std::vector<std::string> split(const std::string& s) {
+inline std::vector<std::string> split(const std::string& s) {
+	const std::regex re{"/"};
     return {
         std::sregex_token_iterator(s.begin(), s.end(), re, -1),
         std::sregex_token_iterator()
