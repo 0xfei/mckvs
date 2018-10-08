@@ -6,6 +6,14 @@
 #define TBKVS_MONITOR_H
 
 
+class Monitor {
+public:
+    Monitor() {}
+    virtual ~Monitor() {}
+
+private:
+
+};
 
 
 #endif //TBKVS_MONITOR_H

@@ -27,7 +27,7 @@ namespace MCKVS
 #define BINLOG_TMP_FILE(num_)   BINLOG_FULLNAME(TMP_BINLOG_PREFIX, num_)
 #define BINLOG_INF_FILE(num_)   BINLOG_FULLNAME(INF_BINLOG_PREFIX, num_)
 
-#define BINLOG_FSIZE_LIMIT      (5*1024*1024)  // 5M
+#define BINLOG_FSIZE_LIMIT      (12*1024*1024)  // 12M
 
 #define BINLOG_NUM_MAX          100
 #define BINLOG_NUM_DFT          10
